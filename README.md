@@ -11,8 +11,11 @@ $ docker-compose up
 # install dependencies
 $ yarn install
 
-#run migration | seed
-$ npx prism migrate dev
+#run migration
+$ npx prisma migrate dev
+
+#seed database
+npx prisma db seed
 
 # development
 $ yarn start
