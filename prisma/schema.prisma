@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email     String @unique
+  firstName String
+  lastName  String
+  phone     String
+  role      Int
+
+  balance       Balance?
+  createdBy     Finance[] @relation("createdBy")
+  transferredTo Finance[] @relation("transferredTo")
+  @@map("users")
+}
+
+model Balance {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  balance   Float
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+  @@map("balance")
+}
+
+model Finance {
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  transactionType Int
+  amount          Float
+  transfferedToId Int?
+  createdById     Int
+  transfferedTo   User?    @relation("transferredTo", fields: [transfferedToId], references: [id])
+  createdBy       User     @relation("createdBy", fields: [createdById], references: [id])
+
+  @@map("finances")
+}
+
+model Logs {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  message   String
+}
