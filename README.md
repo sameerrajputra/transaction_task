@@ -1,7 +1,8 @@
 ## Running the app
 
 1. Keep running Docker
-2. Inside project directory, do the below steps:
+2. Inside project directory, create a .env file .
+3. You can copy .env.sample to .env file and then do the below steps:
 
 ```bash
 # docker create container
